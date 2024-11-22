@@ -1,7 +1,12 @@
 # Description
 
 # Types de changements
-- [ ] Bugfix ? Nouvelle fonctionnalité ? Changement de style ? Autre ?
+- [ ] Bugfix 
+- [ ] Feature
+- [ ] CSS
+- [ ] Chore
+- [ ] Tests
+- [ ] Autre
 
 # Changements faits
 
