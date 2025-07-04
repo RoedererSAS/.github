@@ -1,0 +1,30 @@
+name: Deploy (Multiple Environments)
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Select the environment to deploy'
+        required: true
+        type: choice
+        options:
+        - integration
+        - recette
+        - production
+
+jobs:        
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4.2.2
+
+      - name: Deploy to API
+        env:
+          IMAGE_TAG: ${{ github.ref_name }}_${{ github.event.inputs.environment }}
+          ENVIRONMENT: ${{ github.event.inputs.environment }}
+        run: |
+          curl -X POST -H "Content-Type: application/json" -H "X-Gravitee-Api-Key: ${{ secrets.GRAVITEE_API_KEY_DEPLOYMENT }}" \
+              -d '{"service_name": "${{ secrets.API_STACK_NAME }}", "docker_image_name": "ghcr.io/roederersas/api-document/api-document:'"$IMAGE_TAG"'"}' \
+              https://api.roederer.fr/deployment/$ENVIRONMENT
